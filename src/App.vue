@@ -1,20 +1,30 @@
 <script setup>
-import Home from './components/home.vue';
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 </script>
 
 <template>
-  <Home></Home>
+  <div class="main">
+    <router-view />
+  </div>
 </template>
 
+
+<script>
+export default {
+  created() {
+    this.$store.dispatch('area/getLocation')
+  }
+}
+</script>
 <style>
+.main{
+  min-height:100vh;
+}
+.van-card__content {
+  margin-left: 8px;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: #f7faf8;
 }
 </style>
