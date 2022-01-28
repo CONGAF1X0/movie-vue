@@ -5,7 +5,7 @@ import router from './router'
 import {
     Button, Tabbar, TabbarItem, List, Card, NavBar, Icon, Popup, Area, Col
     , Row, Search, NoticeBar, Cell, CellGroup, Image as VanImage, Divider,
-    ActionBar, ActionBarIcon, ActionBarButton,Tab, Tabs 
+    ActionBar, ActionBarIcon, ActionBarButton, Tab, Tabs
 } from 'vant'
 
 const app = createApp(App)

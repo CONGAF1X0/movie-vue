@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar @click-left="showArea = true" fixed>
+    <van-nav-bar @click-left="showArea = true" placeholder fixed>
         <template #left>
             <van-icon name="location" color="#000" />
             <van-row gutter="10" style="margin-left:5px">
@@ -19,7 +19,8 @@
             <van-icon name="replay" @click="getLocation" />
         </template>
     </van-notice-bar>
-    <CinList />
+
+    <CinList style="margin-top: 30px;" />
 
     <Area v-model:showArea="showArea" @confirm="confirmFun" />
 </template>
@@ -59,11 +60,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .van-notice-bar {
-    margin-top: 45px;
+    top: 40px;
+    opacity: 0.75;
+    z-index: 3;
     --van-notice-bar-font-size: 8px;
     --van-notice-bar-height: 30px;
     --van-notice-bar-text-color: #969799;
+    position: fixed;
+    width: 90vw;
 }
 </style>

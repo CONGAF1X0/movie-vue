@@ -1,6 +1,5 @@
 <template>
-  <div class="main">
-    <van-nav-bar title="热映" @click-right="showArea = true">
+    <van-nav-bar title="热映" @click-right="showArea = true" placeholder fixed>
       <template #right>
         {{ area[1].name }}
         <van-icon name="arrow-down" />
@@ -35,7 +34,6 @@
     </van-list>
 
     <Area v-model:showArea="showArea" v-model:num="num" @confirm="confirmFun" />
-  </div>
 </template>
 
 <script>

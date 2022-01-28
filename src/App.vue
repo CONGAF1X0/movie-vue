@@ -18,11 +18,15 @@ export default {
 }
 </script>
 <style>
-.main{
-  min-height:100vh;
+.main {
+  min-height: 100vh;
 }
 .van-card__content {
   margin-left: 8px;
+}
+.van-button {
+  width: 54px;
+  --van-button-default-height: 33px;
 }
 #app {
   background-color: #f7faf8;

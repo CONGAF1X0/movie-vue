@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar title="影片详情" left-arrow @click-left="backFunc" />
+    <van-nav-bar title="影片详情" left-arrow @click-left="backFunc" placeholder fixed/>
     <van-card>
         <template #thumb>
             <van-image fit="fill" src="../public/spidey.webp" />
