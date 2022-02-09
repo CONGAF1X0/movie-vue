@@ -1,6 +1,6 @@
 <template>
-    <van-nav-bar placeholder fixed />
-    <van-cell-group inset>
+    <van-nav-bar placeholder fixed title="我的"/>
+    <van-cell-group inset @click="userInfo">
         <van-cell class="topCard">
             <template #value>
                 <van-col>
@@ -25,13 +25,30 @@
     </van-cell-group>
 
     <van-cell-group inset>
-        <van-cell>sd</van-cell>
+        <van-cell>
+            <van-grid :border="false">
+                <van-grid-item icon="coupon-o" text="电影票" />
+                <van-grid-item icon="photo-o" text="文字" />
+                <van-grid-item icon="photo-o" text="文字" />
+                <van-grid-item icon="photo-o" text="文字" />
+            </van-grid>
+        </van-cell>
     </van-cell-group>
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 export default {
+    setup(){
+        const router = useRouter()
+        const userInfo = () =>{
+            router.push("/userInfo")
+        }
 
+        return {
+            userInfo,
+        }
+    }
 }
 </script>
 

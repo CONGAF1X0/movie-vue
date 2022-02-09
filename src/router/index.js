@@ -6,9 +6,11 @@ import Cinema from '../views/cinema.vue'
 import Mine from '../views/mine.vue'
 import MovieInfo from '../views/movieInfo.vue'
 import CinemaInfo from '../views/cinemaInfo.vue'
+import UserInfo from '../views/userInfo.vue'
+import Session from '../views/session.vue'
+import Seat from '../views/seat.vue'
 
 const routes = [
-
   {
     path: '/',
     name: 'Nav',
@@ -30,7 +32,9 @@ const routes = [
   },
   { path: '/movieinfo', name: 'MovieInfo', component: MovieInfo },
   { path: '/cinemainfo', name: 'CinemaInfo', component: CinemaInfo },
-
+  { path: '/userinfo', name: 'UserInfo', component: UserInfo },
+  { path: '/session', name: 'Session', component: Session },
+  { path: '/seat', name: 'Seat', component: Seat },
 ]
 
 const router = createRouter({

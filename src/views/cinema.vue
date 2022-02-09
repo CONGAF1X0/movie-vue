@@ -1,5 +1,10 @@
 <template>
-    <van-nav-bar @click-left="showArea = true" placeholder fixed>
+    <van-nav-bar
+        @click-left="showArea = true"
+        @click-right="popup = true"
+        placeholder
+        :style="navStl"
+    >
         <template #left>
             <van-icon name="location" color="#000" />
             <van-row gutter="10" style="margin-left:5px">
@@ -12,38 +17,40 @@
             <van-icon name="search" size="18" color="#000" />
         </template>
     </van-nav-bar>
-
-    <van-notice-bar :scrollable="false" background="#fff">
+    <CinList :style="listStl" />
+    <van-notice-bar :scrollable="false" background="#fff" :style="ntStl">
         {{ "我在：" + address }}
         <template #right-icon>
             <van-icon name="replay" @click="getLocation" />
         </template>
     </van-notice-bar>
 
-    <CinList style="margin-top: 30px;" />
-
     <Area v-model:showArea="showArea" @confirm="confirmFun" />
+    <Search v-model:popup="popup"/>
 </template>
 
 <script>
 import { ref } from 'vue';
 import Area from '../components/area.vue'
 import CinList from '../components/cinList.vue'
+import Search from '../components/search.vue'
 import { mapState } from "vuex";
 import { Toast } from 'vant';
 
 export default {
     components: {
         Area,
-        CinList
+        CinList,
+        Search
     },
+    props: { ntStl: String, navStl: String, listStl: String },
     computed: mapState({
         area: state => state.area.area,
         address: state => state.area.address
     }),
     setup() {
         return {
-            showArea: ref(false),
+            showArea: ref(false), popup: ref(false),
         }
     },
     methods: {
@@ -61,14 +68,23 @@ export default {
 </script>
 
 <style scoped>
+.van-nav-bar {
+    position: fixed;
+    width: 100vw;
+    top: 0px;
+}
+
 .van-notice-bar {
-    top: 40px;
+    position: fixed;
+    width: 90vw;
     opacity: 0.75;
     z-index: 3;
     --van-notice-bar-font-size: 8px;
     --van-notice-bar-height: 30px;
     --van-notice-bar-text-color: #969799;
-    position: fixed;
-    width: 90vw;
+    bottom: 46px;
+}
+.van-list {
+    padding-top: 46px;
 }
 </style>

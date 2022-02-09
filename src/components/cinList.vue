@@ -59,4 +59,7 @@ export default {
 .van-cell-group {
     margin-top: 8px;
 }
+.van-list{
+    overflow-y: scroll;
+}
 </style>

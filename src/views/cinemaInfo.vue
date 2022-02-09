@@ -36,7 +36,7 @@
                         <template #default>
                             <div class="tab2def">
                                 <van-list>
-                                    <van-cell-group inset>
+                                    <van-cell-group inset v-for="i in 4" :key="i">
                                         <van-cell center title="单元格" label="描述信息">
                                             <template #title>
                                                 <van-row class="title">17:00</van-row>
@@ -55,171 +55,12 @@
                                                     id="btbuy"
                                                     round
                                                     color="linear-gradient(to right, #ff6034, #ee0a24)"
+                                                    @click="this.$router.push('/seat')"
                                                 >购票</van-button>
                                             </template>
                                         </van-cell>
                                     </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
-                                    <van-cell-group inset>
-                                        <van-cell center title="单元格" label="描述信息">
-                                            <template #title>
-                                                <van-row class="title">17:00</van-row>
-                                            </template>
-                                            <template #label>
-                                                <van-row class="label">{{ index }}号厅</van-row>
-                                            </template>
-                                            <template #value>
-                                                <van-row id="pricebox">
-                                                    <van-col>￥</van-col>
-                                                    <van-col id="price">50.0</van-col>
-                                                </van-row>
-                                            </template>
-                                            <template #right-icon>
-                                                <van-button
-                                                    id="btbuy"
-                                                    round
-                                                    color="linear-gradient(to right, #ff6034, #ee0a24)"
-                                                >购票</van-button>
-                                            </template>
-                                        </van-cell>
-                                    </van-cell-group>
+
                                 </van-list>
                             </div>
                         </template>

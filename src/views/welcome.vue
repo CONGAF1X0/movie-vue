@@ -77,7 +77,7 @@ export default {
       router.push("/movieinfo")
     }
     const clickBuy = () => {
-      console.log('a')
+      router.push("/session")
     }
     return {
       list,

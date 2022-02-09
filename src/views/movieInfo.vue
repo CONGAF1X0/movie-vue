@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar title="影片详情" left-arrow @click-left="backFunc" placeholder fixed/>
+    <van-nav-bar title="影片详情" left-arrow @click-left="this.$router.go(-1)" placeholder fixed />
     <van-card>
         <template #thumb>
             <van-image fit="fill" src="../public/spidey.webp" />
@@ -55,18 +55,20 @@
 </template>
 
 <script>import { ref } from "vue"
+import { useRouter } from 'vue-router'
 
 export default {
     setup() {
         const list = ref([])
+        const router = useRouter()
         for (let i = 0; i < 10; i++) {
             list.value.push({ a: "a" })
         }
-        const backFunc = () => {
-            history.back()
+        const onClickButton = () => {
+            router.push('/session')
         }
         return {
-            list, backFunc
+            list,onClickButton
         }
     }
 }
