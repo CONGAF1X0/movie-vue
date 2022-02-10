@@ -9,6 +9,7 @@ import CinemaInfo from '../views/cinemaInfo.vue'
 import UserInfo from '../views/userInfo.vue'
 import Session from '../views/session.vue'
 import Seat from '../views/seat.vue'
+import Ticket from '../views/ticket.vue'
 
 const routes = [
   {
@@ -35,6 +36,7 @@ const routes = [
   { path: '/userinfo', name: 'UserInfo', component: UserInfo },
   { path: '/session', name: 'Session', component: Session },
   { path: '/seat', name: 'Seat', component: Seat },
+  { path: '/ticket', name: 'Ticket', component: Ticket }
 ]
 
 const router = createRouter({

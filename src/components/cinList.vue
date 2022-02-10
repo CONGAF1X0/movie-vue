@@ -13,43 +13,48 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
 
 export default {
-    setup() {
-        const loading = ref(false);
+    props: {
+        loading: Boolean,
+        finished: Boolean,
+        onLoad: Function,
+        list: Array,
+    },
+    setup(props, { emit }) {
+        const loading = computed({
+            get: () => props.loading,
+            set: val => {
+                emit('update:loading', val)
+            }
+        })
+        const finished = computed({
+            get: () => props.finished,
+            set: val => {
+                emit('update:finished', val)
+            }
+        })
+        const onLoad = computed({
+            get: () => props.onLoad,
+            set: val => {
+                emit('update:onLoad', val)
+            }
+        })
+        const list = computed({
+            get: () => props.list,
+            set: val => {
+                emit('update:list', val)
+            }
+        })
         const router = useRouter()
-        const finished = ref(false);
-        const list = ref(
-            [
-                { title: "仲恺影院", address: "广新路388号", distance: "2.1km" },
-            ]
-        )
-
-        const onLoad = () => {
-            // 异步更新数据
-            // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-            setTimeout(() => {
-                for (let i = 0; i < 10; i++) {
-                    list.value.push(list.value[0]);
-                }
-
-                // 加载状态结束
-                loading.value = false;
-
-                // 数据全部加载完成
-                if (list.value.length >= 40) {
-                    finished.value = true;
-                }
-            }, 1000);
-        };
         const jump = () => {
             router.push('/cinemainfo')
         }
         return {
             list,
-            loading, finished, onLoad, jump
+            loading, finished, onLoad, jump, props
         }
     }
 }
@@ -58,8 +63,5 @@ export default {
 <style scoped>
 .van-cell-group {
     margin-top: 8px;
-}
-.van-list{
-    overflow-y: scroll;
 }
 </style>

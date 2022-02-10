@@ -27,7 +27,7 @@
     <van-cell-group inset>
         <van-cell>
             <van-grid :border="false">
-                <van-grid-item icon="coupon-o" text="电影票" />
+                <van-grid-item icon="coupon-o" text="电影票" @click="this.$router.push('/ticket')"/>
                 <van-grid-item icon="photo-o" text="文字" />
                 <van-grid-item icon="photo-o" text="文字" />
                 <van-grid-item icon="photo-o" text="文字" />

@@ -1,5 +1,5 @@
 <template>
-    <van-popup v-model:show="popup" :style="{ height: '100%', width: '100vw' }">
+    <div v-show="popup" :style="{ height: '100%', width: '100%' }">
         <form>
             <van-search
                 class="head"
@@ -7,13 +7,11 @@
                 show-action
                 placeholder="请输入搜索关键词"
                 @blur="onSearch"
-                @cancel="popup = false"
+                @cancel="onCancel"
             />
         </form>
-        <div class="container">
-            <CinList />
-        </div>
-    </van-popup>
+        <CinList v-model:list="list" style="padding-top: 54px;" />
+    </div>
 </template>
 
 <script>
@@ -35,11 +33,26 @@ export default {
             }
         })
         const value = ref('');
-        const onSearch = (val) => { console.log(value.value) };
-        const onCancel = () => Toast('取消');
+        const onCancel = () => {
+            emit('update:popup', false)
+        };
+        const list = ref(
+            [
+                { title: "仲恺影院", address: "广新路388号", distance: "2.1km" },
+            ]
+        )
+
+
+        const onSearch = (val) => {
+            for (let i = 0; i < 10; i++) {
+                list.value.push(list.value[0]);
+            }
+            console.log(value.value)
+        };
+
         return {
             props,
-            popup, value,
+            popup, value, list,
             onSearch,
             onCancel,
         }
@@ -49,12 +62,8 @@ export default {
 
 <style scoped>
 .head {
+    position: fixed;
     width: 100%;
     z-index: 3;
-    max-height: 7vh;
-}
-.container {
-    overflow-y: scroll;
-    max-height: 93vh;
 }
 </style>

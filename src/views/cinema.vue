@@ -1,32 +1,34 @@
 <template>
-    <van-nav-bar
-        @click-left="showArea = true"
-        @click-right="popup = true"
-        placeholder
-        :style="navStl"
-    >
-        <template #left>
-            <van-icon name="location" color="#000" />
-            <van-row gutter="10" style="margin-left:5px">
-                <van-col>{{ area[1].name }}</van-col>
-                <van-col v-if="area.length == 3 && area[2].name != ''">{{ area[2].name }}</van-col>
-                <van-col v-else>全城</van-col>
-            </van-row>
-        </template>
-        <template #right>
-            <van-icon name="search" size="18" color="#000" />
-        </template>
-    </van-nav-bar>
-    <CinList :style="listStl" />
-    <van-notice-bar :scrollable="false" background="#fff" :style="ntStl">
-        {{ "我在：" + address }}
-        <template #right-icon>
-            <van-icon name="replay" @click="getLocation" />
-        </template>
-    </van-notice-bar>
+    <div v-show="!popup">
+        <van-nav-bar
+            @click-left="showArea = true"
+            @click-right="popup = true"
+            placeholder
+            :style="navStl"
+        >
+            <template #left>
+                <van-icon name="location" color="#000" />
+                <van-row gutter="10" style="margin-left:5px">
+                    <van-col>{{ area[1].name }}</van-col>
+                    <van-col v-if="area.length == 3 && area[2].name != ''">{{ area[2].name }}</van-col>
+                    <van-col v-else>全城</van-col>
+                </van-row>
+            </template>
+            <template #right>
+                <van-icon name="search" size="18" color="#000" />
+            </template>
+        </van-nav-bar>
+        <CinList :style="listStl" />
+        <van-notice-bar :scrollable="false" background="#fff" :style="ntStl">
+            {{ "我在：" + address }}
+            <template #right-icon>
+                <van-icon name="replay" @click="getLocation" />
+            </template>
+        </van-notice-bar>
+    </div>
 
     <Area v-model:showArea="showArea" @confirm="confirmFun" />
-    <Search v-model:popup="popup"/>
+    <Search v-model:popup="popup" @back="back" />
 </template>
 
 <script>
@@ -49,8 +51,12 @@ export default {
         address: state => state.area.address
     }),
     setup() {
+        const popup = ref(false)
+        const back = () => {
+            popup.value = false
+        }
         return {
-            showArea: ref(false), popup: ref(false),
+            showArea: ref(false), popup, back
         }
     },
     methods: {
