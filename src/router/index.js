@@ -10,6 +10,7 @@ import UserInfo from '../views/userInfo.vue'
 import Session from '../views/session.vue'
 import Seat from '../views/seat.vue'
 import Ticket from '../views/ticket.vue'
+import Actor from '../views/actor.vue'
 
 const routes = [
   {
@@ -31,17 +32,18 @@ const routes = [
     ],
     redirect: '/welcome'
   },
-  { path: '/movieinfo', name: 'MovieInfo', component: MovieInfo },
-  { path: '/cinemainfo', name: 'CinemaInfo', component: CinemaInfo },
+  { path: '/movieinfo/:id', name: 'MovieInfo', component: MovieInfo },
+  { path: '/cinemainfo/:id', name: 'CinemaInfo', component: CinemaInfo, meta: { keepAlive: true } },
   { path: '/userinfo', name: 'UserInfo', component: UserInfo },
-  { path: '/session', name: 'Session', component: Session },
-  { path: '/seat', name: 'Seat', component: Seat },
-  { path: '/ticket', name: 'Ticket', component: Ticket }
+  { path: '/session/:id', name: 'Session', component: Session },
+  { path: '/seat/:id', name: 'Seat', component: Seat },
+  { path: '/ticket', name: 'Ticket', component: Ticket },
+  { path: '/actor/:id', name: 'Actor', component: Actor }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
 })
 
 export default router

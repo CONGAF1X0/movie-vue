@@ -5,16 +5,37 @@
 
 <template>
   <div class="main">
-    <router-view />
+    <!-- <router-view /> -->
+    <router-view v-slot="{ Component }">
+      <keep-alive :include="includeList">
+        <component :is="Component"></component>
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 
 
 <script>
 export default {
-  created() {
+  name: 'App',
+  data () {
+    return {
+      includeList: []
+    }
+  },
+  watch: {
+    $route (to) {
+      //监听路由变化，把配置路由中keepAlive为true的name添加到include动态数组中
+      const that = this
+      if (to.meta.keepAlive && that.includeList.indexOf(to.name) === -1) {
+        that.includeList.push(to.name)
+      }
+    }
+  },
+  created () {
     this.$store.dispatch('area/getLocation')
   }
+
 }
 </script>
 <style>
@@ -31,4 +52,7 @@ export default {
 #app {
   background-color: #f7faf8;
 }
+/* ::-webkit-scrollbar {
+  display: none;
+} */
 </style>
