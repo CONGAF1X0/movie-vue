@@ -27,7 +27,12 @@
       v-model:onLoad="onLoad"
       v-model:finished="finished"
     />
-    <van-notice-bar :scrollable="false" background="#fff" :style="ntStl">
+    <van-notice-bar
+      class="nvb"
+      :scrollable="false"
+      background="#fff"
+      :style="ntStl"
+    >
       {{ "我在：" + address }}
       <template #right-icon>
         <van-icon name="replay" @click="getLocation" />
@@ -82,8 +87,8 @@ export default {
         const res = await getCinemaList({
           city: city.value,
           district: district.value != '全城' ? district.value : '',
-          lng: position[0] != 0 ? position[0] : '',
-          lat: position[1] != 0 ? position[1] : '',
+          lng: position[0],
+          lat: position[1],
           mid: props.mid || '',
           t: props.t || '',
           page: page.value,
@@ -131,6 +136,7 @@ export default {
 <style scoped>
 .van-nav-bar {
   position: fixed;
+  font-size: 13px;
   width: 100vw;
   top: 0px;
 }

@@ -32,8 +32,8 @@ const getters = {
 
 const getAddress = async ({ commit }, lng, lat) => {
     const res = await regeoApi(lng + ',' + lat)
+    console.log(res)
     if (res.info === 'OK') {
-        console.log(res)
         commit('setAddress', res.regeocode.formatted_address)
     } else {
         commit('setAddress', "定位失败")
@@ -60,8 +60,8 @@ const getLocation = ({ commit }) => {
             timeout: 10000,// 设置定位超时时间，默认：无穷大
         })
         geolocation.getCurrentPosition(function (status, result) {
+            console.log(result)
             if (status == 'complete') {
-                console.log(result)
                 commit('setPosition', [result.position.lng, result.position.lat])
                 getAddress({ commit }, result.position.lng, result.position.lat)
             } else {

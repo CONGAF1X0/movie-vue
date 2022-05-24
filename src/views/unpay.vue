@@ -1,16 +1,17 @@
 <template>
   <van-nav-bar
-    title="电影票"
+    title="未支付"
     left-arrow
     @click-left="this.$router.go(-1)"
     placeholder
     fixed
   />
+
   <van-cell-group
     inset
     v-for="i in list"
     :key="i.ticker_id"
-    @click="celectTicket(i)"
+    @click="selectTicket(i)"
   >
     <van-cell :title="i.movie_name" :value="'x' + i.num" center>
       <template #label>
@@ -29,8 +30,6 @@
     :style="{ height: '100%', '--van-popup-background-color': '#313337' }"
   >
     <van-cell-group inset class="tcell van-hairline--surround">
-      <van-tag v-if="isDel" plain type="primary" class="tag">已放映</van-tag>
-
       <van-cell class="tc">
         <template #value>
           <van-image
@@ -59,26 +58,6 @@
 
       <van-cell center>
         <template #title>
-          <div style="font-size: 16px; font-weight: 500">取电影票</div>
-        </template>
-        <template #label>
-          <van-row justify="center"></van-row>
-          <van-row justify="center">{{ selected.num }}张电影票</van-row>
-          <van-row justify="center" id="tnum" class="van-hairline--surround">
-            <del v-if="isDel">
-              <span style="font-size: 12px">取票码：</span>
-              {{ selected.ticket_id }}
-            </del>
-            <div v-else>
-              <span style="font-size: 12px">取票码：</span>
-              {{ selected.ticket_id }}
-            </div>
-          </van-row>
-        </template>
-      </van-cell>
-
-      <van-cell center>
-        <template #title>
           <div style="font-size: 17px; font-weight: 500">
             {{ selected.cinema_name }}
           </div>
@@ -91,7 +70,7 @@
       <van-cell center>
         <template #title>
           <div style="font-size: 17px; font-weight: 500">
-            实付金额：
+            应付金额：
             <span>￥{{ selected.num * selected.price }}</span>
           </div>
         </template>
@@ -107,24 +86,18 @@
       </van-cell>
       <van-cell center>
         <template #title>
-          <div style="font-size: 17px; font-weight: 500">观影须知</div>
+          <div style="font-size: 17px; font-weight: 500">请尽快支付</div>
         </template>
         <template #label>
-          <van-row
-            >1.提前到达影院现场，找到自动取票机，打印纸质电影票，完成取票。</van-row
-          >
-          <van-row
-            >2.如果现场自动去票机无法打印电影票，请联系影院工作人员处理。</van-row
-          >
-          <van-row>3.凭打印好的纸质电影票，检票入场观影。</van-row>
-          <van-row>4.已放映或放映前2小时无法退票。</van-row>
+          <van-row>15分钟内未支付，订单将自动取消</van-row>
+          <van-row id="cd" justify="center"
+            >待支付，剩余
+            <van-count-down :time="time" format="mm:ss" />
+          </van-row>
           <div>
-            <van-grid :column-num="1" :border="false" direction="horizontal">
-              <van-grid-item
-                icon="cash-back-record"
-                text="退票"
-                @click="refund"
-              />
+            <van-grid :column-num="2" :border="false">
+              <van-grid-item icon="paid" text="支付" @click="pay" />
+              <van-grid-item icon="close" text="取消" @click="cancel" />
             </van-grid>
           </div>
         </template>
@@ -135,20 +108,20 @@
 
 <script>
 import { ref } from 'vue'
-import { getTicket, cancelTicket } from '@/api/user'
-import { Toast } from 'vant'
-import { useRouter } from 'vue-router'
-import { Dialog } from 'vant'
+import { getTicket, payTicket, cancelTicket } from '@/api/user'
 import { useStore } from 'vuex'
+import { Toast } from 'vant'
+import { useRouter, useRoute } from 'vue-router'
+import { Dialog } from 'vant'
 
 export default {
   setup () {
+    const router = useRouter(), route = useRoute()
     const userInfo = ref({}), store = useStore()
     userInfo.value = store.getters['user/getUserInfo']
-    const router = useRouter()
     const list = ref([]), show = ref(false), selected = ref({})
     const getList = async () => {
-      const res = await getTicket(1)
+      const res = await getTicket(0)
       if (res.code == 200) {
         list.value = res.list
         console.log(list.value)
@@ -165,29 +138,38 @@ export default {
         list.value[i].seat = seatStr
       }
     })
-    const minT = 7200 * 1000
-    const isDel = ref(false)
-    const celectTicket = (val) => {
+    const time = ref(15 * 1000)
+
+    const selectTicket = (val) => {
       selected.value = val
-      var now = new Date().getTime()
-      isDel.value = false
-      if (now - selected.value.start_time > 0) {
-        isDel.value = true
-      }
+      const t = new Date().getTime() - selected.value.created_time * 1000
+      time.value = 15 * 60 * 1000 - t
       show.value = true
     }
-
-    const refund = () => {
-      console.log('refund')
-      const t = selected.value.start_time - new Date().getTime()
-      if (t < minT) {
-        Toast.fail('已放映或放映前2小时无法退票')
-        return
-      }
+    const pay = () => {
+      Toast.loading()
+      setTimeout(async () => {
+        const res = await payTicket({
+          uid: userInfo.value.uid,
+          ticket_id: selected.value.ticket_id
+        })
+        // console.log(res)
+        if (res.code !== 200) {
+          Toast.clear()
+          Toast.fail('支付失败，请确认余额')
+          return
+        }
+        Toast.clear()
+        Toast.success()
+        setTimeout(() => router.push({ name: 'Mine' }), 500)
+      }, 2000)
+    }
+    const cancel = () => {
+      console.log("cancel")
       Dialog.confirm({
-        title: '退票',
+        title: '取消订单',
         message:
-          '确认将删除该订单，并返还支付金额',
+          '确认将取消并删除该订单',
       })
         .then(() => {
           // on confirm
@@ -213,8 +195,8 @@ export default {
         })
     }
     return {
-      show, celectTicket, selected,
-      list, refund, isDel
+      show, selectTicket, selected,
+      list, time, pay, cancel
     }
   }
 }
@@ -245,20 +227,14 @@ export default {
   margin-top: 15px;
   margin-bottom: 15px;
 }
-.van-grid :deep() .van-grid-item__content {
-  padding-bottom: 0;
+.van-count-down {
+  --van-count-down-font-size: 23px;
 }
-.tag {
-  position: absolute;
-  right: 5vw;
-  top: 25vh;
-  opacity: 0.2;
-  font-size: 50px;
-  border: 2px solid;
-  z-index: 5;
-  height: 150px;
-  width: 150px;
-  border-radius: 100%;
-  transform: rotateZ(15deg);
+#cd {
+  font-size: 23px;
+  font-weight: 500;
+  color: #000;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>

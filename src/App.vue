@@ -52,6 +52,9 @@ export default {
 #app {
   background-color: #f7faf8;
 }
+.van-dialog {
+  --van-dialog-confirm-button-text-color: #1989fa;
+}
 /* ::-webkit-scrollbar {
   display: none;
 } */

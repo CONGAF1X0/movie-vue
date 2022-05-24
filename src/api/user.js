@@ -33,4 +33,10 @@ export const getCodeApi = (params) => request('create_mobile_captcha', params, '
 
 export const createTicket = (params) => request('/ticket/create', params, 'post')
 
-export const getTicket = () => request('/ticket/list')
+export const getTicket = (x) => request('/ticket/list?status=' + x)
+
+export const payTicket = (params) => request('/ticket/pay', params, 'post')
+
+export const cancelTicket = (params) => request('/ticket/cancel', params, 'post')
+
+export const money = () => request('/user/money', {}, 'post')

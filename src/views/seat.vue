@@ -128,6 +128,7 @@
     </van-card>
 
     <van-submit-bar
+      class="smb"
       :price="price * checked.length * 100"
       button-text="确认付款"
       @submit="onSubmit"
@@ -206,10 +207,10 @@ export default {
           return
         }
         Toast.clear()
-        Toast.success()
+        Toast.success(res.err)
         active.value = 3
 
-        setTimeout(() => router.push({ name: 'Mine' }), 2000)
+        setTimeout(() => router.push({ name: 'Mine' }), 500)
       }, 2000)
       // console.log(checked.value.join(','))
       // console.log(store.getters['user/getUserInfo'].uid, route.params.id)
@@ -220,9 +221,9 @@ export default {
       row,
       col, confirmSeatFunc, tagClick, active, backFunc, onSubmit,
       checked, soldArr,
-      selectable: '../public/selectable.png',
-      selected: '../public/selected.png',
-      sold: '../public/sold.png',
+      selectable: '../selectable.png',
+      selected: '../selected.png',
+      sold: '../sold.png',
       minWidth,
       data, price
     }
@@ -233,7 +234,7 @@ export default {
 <style scoped>
 .img-icon {
 }
-.tagcontainer >>> .van-cell__value {
+.tagcontainer :deep() .van-cell__value {
   overflow-x: scroll;
 }
 .pinmu {
@@ -245,7 +246,7 @@ export default {
   overflow-x: scroll;
   overflow-y: hidden;
 }
-.tagcontainer >>> .van-cell__value::-webkit-scrollbar {
+.tagcontainer :deep() .van-cell__value::-webkit-scrollbar {
   display: none;
 }
 .taglist {
@@ -287,7 +288,7 @@ export default {
   height: 200px;
   font-size: 3vw;
 }
-.van-card >>> .van-card__content {
+.van-card :deep() .van-card__content {
   height: 170px;
 }
 
@@ -303,5 +304,8 @@ export default {
 }
 #sp {
   margin-right: 5px;
+}
+.smb :deep() .van-button {
+  width: 154px;
 }
 </style>

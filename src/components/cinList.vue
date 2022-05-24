@@ -17,7 +17,8 @@
           <span class="lab">
             {{ item.district + item.location }}
           </span>
-          <van-row>{{ item.time || "" }}</van-row>
+          <span v-if="item.time == undefined" />
+          <van-row v-else class="lab">{{ item.time }}</van-row>
         </template>
 
         <template #value>
@@ -90,5 +91,8 @@ export default {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.van-cell :deep() .van-cell__title {
+  width: 78%;
 }
 </style>

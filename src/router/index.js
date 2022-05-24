@@ -10,6 +10,7 @@ import UserInfo from '../views/userInfo.vue'
 import Session from '../views/session.vue'
 import Seat from '../views/seat.vue'
 import Ticket from '../views/ticket.vue'
+import Unpay from '../views/unpay.vue'
 import Actor from '../views/actor.vue'
 
 const routes = [
@@ -38,6 +39,7 @@ const routes = [
   { path: '/session/:id', name: 'Session', component: Session },
   { path: '/seat/:id', name: 'Seat', component: Seat },
   { path: '/ticket', name: 'Ticket', component: Ticket },
+  { path: '/unpay', name: 'Unpay', component: Unpay },
   { path: '/actor/:id', name: 'Actor', component: Actor }
 ]
 

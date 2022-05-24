@@ -10,7 +10,7 @@
               fit="cover"
               width="8rem"
               height="8rem"
-              src="../public/lsq.png"
+              src="../lsq.png"
             />
           </van-row>
           <van-row justify="center" id="name">
@@ -26,18 +26,38 @@
 
   <van-cell-group inset>
     <van-cell>
-      <van-grid :border="false">
+      <van-grid :border="false" :column-num="3">
         <van-grid-item
           icon="coupon-o"
           text="电影票"
           @click="this.$router.push('/ticket')"
         />
-        <van-grid-item icon="photo-o" text="" />
-        <van-grid-item icon="photo-o" text="" />
+        <van-grid-item
+          v-if="unpayNum == 0"
+          icon="clock-o"
+          text="未支付"
+          @click="this.$router.push('/unpay')"
+        />
+        <van-grid-item
+          v-else
+          icon="clock-o"
+          text="未支付"
+          :badge="unpayNum"
+          @click="this.$router.push('/unpay')"
+        />
         <van-grid-item icon="circle" text="登出" @click="logout" />
+      </van-grid>
+      <van-grid :border="false" direction="horizontal" :column-num="1">
+        <van-grid-item
+          icon="cash-on-deliver"
+          :text="'余额：￥' + userInfo.money"
+          @click="getMoney"
+        />
       </van-grid>
     </van-cell>
   </van-cell-group>
+
+  <!-- unpay -->
 
   <van-overlay :show="show">
     <div class="form-box">
@@ -179,6 +199,7 @@
               </van-col>
               <van-col>
                 <van-button
+                  class="sm"
                   round
                   block
                   type="primary"
@@ -199,7 +220,7 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { isAccountExist, getCodeApi, signup } from '@/api/user'
+import { isAccountExist, getCodeApi, signup, getTicket, money } from '@/api/user'
 import { Toast } from 'vant'
 import { useStore } from 'vuex'
 
@@ -213,11 +234,20 @@ export default {
         username: '', password: '', mobile: '', captcha: ''
       })
     const userInfo = ref({})
+    const unpayNum = ref(0)
+    const getUnpay = async () => {
+      const res = await getTicket(0)
+      if (res.code == 200) {
+        unpayNum.value = res.list.length
+        console.log(unpayNum.value)
+      }
+    }
     const getInfo = async () => {
       try {
         const res = await store.dispatch('user/getUserInfoAction')
         if (res) {
           userInfo.value = res
+          getUnpay()
           return
         }
       } catch (e) {
@@ -251,7 +281,7 @@ export default {
       if (!isCount2.value && /^1[3-9]\d{9}$/.test(signupForm.value.mobile)) {
         const res = await getCodeApi({ mobile: signupForm.value.mobile, action_type: "signup" })
         if (res.code !== 200) {
-          Toast.fail('未注册')
+          Toast.fail('已注册')
           return
         }
         Toast.success("已发送")
@@ -327,9 +357,15 @@ export default {
       Toast.success()
       show.value = true
     }
+    const getMoney = async () => {
+      console.log('getMoney')
+      const res = await money()
+      Toast.success(res.err)
+      getInfo()
+    }
     return {
       userInfo, show, isAccForm, switchLoginForm, countDown, onFinish, isCount, getCode, signupForm, mobileForm, accountForm, onSubmit, captchaValidator,
-      isSignup, getSignupCode, checkUsername, countDown2, onFinish2, isCount2, pswValidator, formRef, goInfo, logout
+      isSignup, getSignupCode, checkUsername, countDown2, onFinish2, isCount2, pswValidator, formRef, goInfo, logout, unpayNum, getMoney
     }
   }
 }
@@ -360,5 +396,8 @@ export default {
 .fontStl {
   font-size: 14px;
   color: #969799;
+}
+.sm {
+  width: 64px;
 }
 </style>
